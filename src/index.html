@@ -18,10 +18,13 @@
   <body>
 
     <!-- <include src="./partials/main.html"></include> -->
-    <label class="label-search" for="countries-search">
-        Countries-search
-        <input type="text" name="query">
-    </label>
+    <form class="search-form" action="">
+        <label class="label-search" for="countries-search">
+            Countries-search
+            <input type="text" name="query">
+        </label>
+        <div class="notice" data-notice></div>
+    </form>
     <div class="countries-container"></div>
 
     

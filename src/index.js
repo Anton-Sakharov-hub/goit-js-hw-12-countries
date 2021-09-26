@@ -1,55 +1,31 @@
 import main from "./sass/base/base.scss";
 import debounce from 'lodash.debounce';
-import Handlebars from "handlebars";
-import countriesListTpl from "./countries-list.hbs";
-import countryDescription from "./country-description.hbs";
 
-// const inputRef = document.querySelector('input');
-const refs = {
-  input: document.querySelector('input'),
-  container: document.querySelector('.countries-container'),
-}
+import { success } from '@pnotify/core/dist/PNotify.js';
+// import * as PNotifyMobile from '@pnotify/mobile/dist/PNotifyMobile.js';
+import '@pnotify/core/dist/PNotify.css';
+import '@pnotify/core/dist/BrightTheme.css';
+// defaultModules.set(PNotifyMobile, {});
 
+import setMessage from "./js/setMessage";
+import fetchCountries from "./js/fetchCountries";
+import makesMarkup from "./js/makesMarkup";
+import refs from "./js/refs";
 
 function catchRequest(event) {
-
   const target = event.target;
   const message = target.value;
-  // if (!message) return;
 
-  fetch(`https://restcountries.com/v2/name/${message}`)
-    .then(r => {
-      if (r.status === 404) throw new Error('Страна не найдена');
-      if (r.status >= 400) throw new Error('Что-то пошло не так, попробуйте позже');
+  if (!message) return;
 
-      return r.json()
-    }, () => {
-      throw new Error('Что-то пошло не так, попробуйте позже')
-    })
-    .then(countries => {
-      console.log(countries);
-      return countries;
-    })
-    .then(countries => {
-      if (countries.status === 404) return;
+  setMessage(success, 'Загрузка...', 500);
 
-      if (countries.length > 1) {
-        const markup = countriesListTpl(countries);
-        refs.container.innerHTML = markup;
-        
-      } else {
-        const markup = countryDescription(countries);
-        refs.container.innerHTML = markup;
-      }
-    }).catch(alert)
-    // .finally(form.reset());
-
-  console.log(message);
+  fetchCountries(message).then(makesMarkup);
 };
 
 
 refs.input.addEventListener('input', debounce(catchRequest, 1000));
-console.dir(refs.input);
+
 
 
 

@@ -4,10 +4,19 @@ body {
   margin: 0;
 }
 
+img {
+  display: block;
+}
+
 label {
   display: block;
   margin-top: 100px;
   margin-left: 15px;
+}
+
+.search-form {
+  display: flex;
+  //   flex-direction: row;
 }
 
 input {
@@ -15,9 +24,15 @@ input {
   width: 300px;
 }
 
+.notice {
+  width: 300px;
+  margin-left: 50px;
+}
+
 .countries-container {
   display: flex;
   flex-direction: raw;
+  align-items: flex-start;
   margin-top: 50px;
   margin-left: 30px;
 }
@@ -27,8 +42,7 @@ input {
 }
 
 .thumb {
-  width: 400px;
-  height: 400px;
+  border: 1px solid black;
 }
 
 .desc {
@@ -43,6 +57,8 @@ input {
   font-size: 22px;
   line-height: 1.14;
   letter-spacing: 0.03em;
+
+  margin-top: 0;
 }
 
 .label-search {

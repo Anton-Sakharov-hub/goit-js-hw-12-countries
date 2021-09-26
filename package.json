@@ -28,6 +28,10 @@
     "sass": "^1.26.9"
   },
   "dependencies": {
-    "lodash.debounce": "^4.0.8"
+    "@pnotify/core": "^5.2.0",
+    "@pnotify/mobile": "^5.2.0",
+    "lodash.debounce": "^4.0.8",
+    "pnotify": "^5.2.0",
+    "refs": "^0.9.7"
   }
 }
