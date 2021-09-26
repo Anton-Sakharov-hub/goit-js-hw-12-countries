@@ -1,6 +1,6 @@
 import { alert } from '@pnotify/core/dist/PNotify.js';
-import countriesListTpl from "/countries-list.hbs";
-import countryDescription from "/country-description.hbs";
+import countriesListTpl from "../templates/countries-list.hbs";
+import countryDescription from "../templates/country-description.hbs";
 import refs from "./refs";
 import setMessage from './setMessage';
 
