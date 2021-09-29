@@ -597,49 +597,12 @@ exports.default = _default;
 function _default(notice, message, delay) {
   notice({
     text: message,
-    delay: delay
+    delay
   });
 }
 
 ;
-},{}],"js/fetchCountries.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = _default;
-
-var _PNotify = require("@pnotify/core/dist/PNotify.js");
-
-var _setMessage = _interopRequireDefault(require("./setMessage"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _default(searchQuery) {
-  return fetch("https://restcountries.com/v2/name/".concat(searchQuery)).then(function (r) {
-    if (r.status === 404) throw new Error('Страна не найдена');
-    if (r.status >= 400) throw new Error('Что-то пошло не так, попробуйте позже');
-    return r.json();
-  }, function () {
-    throw new Error('Что-то пошло не так, попробуйте позже');
-  }).then(function (countries) {
-    if (countries.status === 404) {
-      (0, _setMessage.default)(_PNotify.error, 'Страна не найдена', 1000);
-    }
-
-    console.log(countries);
-    return countries;
-  }); // .catch(countries => {
-  //     if (countries.status === 404) {
-  //         setMessage(error, 'Страна не найдена', 1000)
-  //     };
-  //     console.log(countries);
-  // });
-}
-
-;
-},{"@pnotify/core/dist/PNotify.js":"../node_modules/@pnotify/core/dist/PNotify.js","./setMessage":"js/setMessage.js"}],"../node_modules/handlebars/dist/handlebars.runtime.js":[function(require,module,exports) {
+},{}],"../node_modules/handlebars/dist/handlebars.runtime.js":[function(require,module,exports) {
 var define;
 var global = arguments[3];
 /**!
@@ -2654,7 +2617,51 @@ THE SOFTWARE.
 });
 
 ;
-},{}],"templates/countries-list.hbs":[function(require,module,exports) {
+},{}],"js/fetchCountries.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = _default;
+
+var _PNotify = require("@pnotify/core/dist/PNotify.js");
+
+var _handlebars = require("handlebars/dist/handlebars.runtime");
+
+var _setMessage = _interopRequireDefault(require("./setMessage"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _default(searchQuery) {
+  return fetch("https://restcountries.com/v2/name/".concat(searchQuery.trim())).then(async response => {
+    const serverResponse = await response.json();
+    if (serverResponse.status === 404) throw new Error("Ошибка!!!!!!!!!");
+    console.log(serverResponse);
+    return serverResponse;
+  });
+}
+
+; // export default function (searchQuery) {
+//     return fetch(`https://restcountries.com/v2/name/${searchQuery.trim()}`)
+//         .then(response => {
+//             // if (response.status === 404) throw new Error('Страна не найдена');
+//             // if (response.status >= 400) throw new Error('Что-то пошло не так, попробуйте позже');
+//             console.log(response);
+//             // return response.json()
+//         }, (response) => {
+//             // console.log(response);
+//             // if (response.status === 404) throw new Error('Что-то пошло не так, попробуйте позже')
+//         })
+//         .then(countries => {
+//             console.log(countries);
+//             if (countries.status === 404) {
+//                 setMessage(error, 'Страна не найдена', 1000)
+//                 throw new Error("Ошибка!!!!!!!!!");
+//             }
+//         })
+// };
+},{"@pnotify/core/dist/PNotify.js":"../node_modules/@pnotify/core/dist/PNotify.js","handlebars/dist/handlebars.runtime":"../node_modules/handlebars/dist/handlebars.runtime.js","./setMessage":"js/setMessage.js"}],"templates/countries-list.hbs":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2666,7 +2673,7 @@ var _handlebars = _interopRequireDefault(require("handlebars/dist/handlebars.run
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var templateFunction = _handlebars.default.template({
+const templateFunction = _handlebars.default.template({
   "1": function _(container, depth0, helpers, partials, data) {
     var helper,
         lookupProperty = container.lookupProperty || function (parent, propertyName) {
@@ -2739,9 +2746,7 @@ var _handlebars = _interopRequireDefault(require("handlebars/dist/handlebars.run
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-var templateFunction = _handlebars.default.template({
+const templateFunction = _handlebars.default.template({
   "1": function _(container, depth0, helpers, partials, data) {
     var stack1,
         helper,
@@ -2757,7 +2762,7 @@ var templateFunction = _handlebars.default.template({
       return undefined;
     };
 
-    return "<div class=\"description-box\">\r\n    <p class=\"title\">" + alias4((helper = (helper = lookupProperty(helpers, "name") || (depth0 != null ? lookupProperty(depth0, "name") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+    return "<div class=\"description-box\">\r\n    <p class=\"title\">" + alias4((helper = (helper = lookupProperty(helpers, "name") || (depth0 != null ? lookupProperty(depth0, "name") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
       "name": "name",
       "hash": {},
       "data": data,
@@ -2771,7 +2776,7 @@ var templateFunction = _handlebars.default.template({
           "column": 29
         }
       }
-    }) : helper)) + "</p>\r\n    <p class=\"desc\">Capital: " + alias4((helper = (helper = lookupProperty(helpers, "capital") || (depth0 != null ? lookupProperty(depth0, "capital") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+    }) : helper)) + "</p>\r\n    <p class=\"desc\">Capital: " + alias4((helper = (helper = lookupProperty(helpers, "capital") || (depth0 != null ? lookupProperty(depth0, "capital") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
       "name": "capital",
       "hash": {},
       "data": data,
@@ -2785,7 +2790,7 @@ var templateFunction = _handlebars.default.template({
           "column": 40
         }
       }
-    }) : helper)) + "</p>\r\n    <p class=\"desc\">Population: " + alias4((helper = (helper = lookupProperty(helpers, "population") || (depth0 != null ? lookupProperty(depth0, "population") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+    }) : helper)) + "</p>\r\n    <p class=\"desc\">Population: " + alias4((helper = (helper = lookupProperty(helpers, "population") || (depth0 != null ? lookupProperty(depth0, "population") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
       "name": "population",
       "hash": {},
       "data": data,
@@ -2831,7 +2836,7 @@ var templateFunction = _handlebars.default.template({
           "column": 13
         }
       }
-    })) != null ? stack1 : "") + "    alt=\"" + alias4((helper = (helper = lookupProperty(helpers, "name") || (depth0 != null ? lookupProperty(depth0, "name") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+    })) != null ? stack1 : "") + "    alt=\"" + alias4((helper = (helper = lookupProperty(helpers, "name") || (depth0 != null ? lookupProperty(depth0, "name") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
       "name": "name",
       "hash": {},
       "data": data,
@@ -2943,18 +2948,15 @@ var _setMessage = _interopRequireDefault(require("./setMessage"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _default(countries) {
-  if (countries.status === 404) return;
-
   if (countries.length > 1 && countries.length <= 10) {
-    var markup = (0, _countriesList.default)(countries);
+    const markup = (0, _countriesList.default)(countries);
     _refs.default.container.innerHTML = markup;
   } else if (countries.length > 10) {
     _refs.default.container.innerHTML = '';
     (0, _setMessage.default)(_PNotify.alert, 'Введите более специфический запрос', 1000);
   } else {
-    var _markup = (0, _countryDescription.default)(countries);
-
-    _refs.default.container.innerHTML = _markup;
+    const markup = (0, _countryDescription.default)(countries);
+    _refs.default.container.innerHTML = markup;
   }
 }
 
@@ -2985,11 +2987,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // import * as PNotifyMobile from '@pnotify/mobile/dist/PNotifyMobile.js';
 // defaultModules.set(PNotifyMobile, {});
 function catchRequest(event) {
-  var target = event.target;
-  var message = target.value;
-  if (!message) return;
+  const target = event.target;
+  const message = target.value;
+  if (!message.trim()) return;
   (0, _setMessage.default)(_PNotify.success, 'Загрузка...', 500);
-  (0, _fetchCountries.default)(message).then(_makesMarkup.default);
+  (0, _fetchCountries.default)(message).then(_makesMarkup.default).catch(err => {
+    // if (countries.status === 404) {
+    (0, _setMessage.default)(_PNotify.error, 'Страна не найдена', 1000); // };
+
+    console.log(err, "Ошибка запроса!");
+  });
+  ;
 }
 
 ;
@@ -3031,7 +3039,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50508" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57190" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -3208,4 +3216,4 @@ function hmrAcceptRun(bundle, id) {
   }
 }
 },{}]},{},["../node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.js"], null)
-//# sourceMappingURL=/src.e31bb0bc.js.map
+//# sourceMappingURL=./src.e31bb0bc.js.map
