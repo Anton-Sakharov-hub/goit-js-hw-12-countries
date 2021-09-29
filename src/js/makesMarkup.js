@@ -6,7 +6,6 @@ import setMessage from './setMessage';
 
 
 export default function (countries) {
-  if (countries.status === 404) return;
 
   if (countries.length > 1 && countries.length <= 10) {
       const markup = countriesListTpl(countries);

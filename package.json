@@ -7,7 +7,6 @@
   "scripts": {
     "dev": "parcel src/*.html",
     "build": "parcel build src/*.html",
-    "predeploy": "npm run build -- --public-url='/goit-js-hw-12-countries/'",
     "deploy": "gh-pages -d dist"
   },
   "repository": {
@@ -34,5 +33,10 @@
     "pnotify": "^5.2.0",
     "refs": "^0.9.7",
     "templates": "^1.2.9"
-  }
+  },
+  "browserslist": [
+    "defaults",
+    "not IE 11",
+    "maintained node versions"
+  ]
 }
